@@ -1,4 +1,4 @@
-**Power-Rule-Simulator (AUEB)**
+**Power-Rule-Simulator**
 - A Power rule simulator written in C++, using the sgg library.
 - The whole project was developed using windows 11 wsl and vscode
 
