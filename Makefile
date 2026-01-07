@@ -3,7 +3,7 @@ CXXFLAGS := -O2 -std=c++17 -Iinclude -I.
 LDFLAGS := -Llib -lsgg -lGL -lGLEW -lSDL2 -lSDL2_mixer -lfreetype
 
 SRC := src/main.cpp
-TARGET := ./power_rule_simulator
+TARGET := ./power_law_simulator
 
 .PHONY: all run clean debug
 
@@ -15,11 +15,11 @@ $(TARGET): $(SRC)
 run: $(TARGET)
 	./$(TARGET)
 
-DEBUG_TARGET := ./power_rule_simulator_dbg
+DEBUG_TARGET := ./power_law_simulator_dbg
 
 debug:
 	$(CXX) -Og -g -std=c++17 -Iinclude -I. $(SRC) -o $(DEBUG_TARGET) -Llib -lsggd -lGL -lGLEW -lSDL2 -lSDL2_mixer -lfreetype
 
 clean:
-	rm -rf ./power_rule_simulator
-	rm -rf ./power_rule_simulator_dbg
+	rm -rf ./power_law_simulator
+	rm -rf ./power_law_simulator_dbg
