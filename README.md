@@ -1,5 +1,5 @@
-**Power-Rule-Simulator**
-- A Power rule simulator written in C++, using the sgg library.
+**Power-Law-Simulator**
+- A Power law simulator written in C++, using the sgg library.
 - The whole project was developed using windows 11 wsl and vscode
 
 **Prerequisites**
@@ -13,9 +13,9 @@ sudo apt-get install -y libsdl2-dev libsdl2-mixer-dev libglew-dev libfreetype6-d
 **Build & Run**
 - From the project root:
 ```bash
-make       # builds ./power_rule_simulator (Release)
-make run   # runs ./power_rule_simulator (Release)
-make debug # builds ./power_rule_simulator_dbg (Debug)
+make       # builds ./power_law_simulator (Release)
+make run   # runs ./power_law_simulator (Release)
+make debug # builds ./power_law_simulator_dbg (Debug)
 make clean # removes the all the binary
 ```
 
