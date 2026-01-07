@@ -1,8 +1,9 @@
 CXX := g++
-CXXFLAGS := -O2 -std=c++17 -Iinclude -I.
+CXXFLAGS := -O2 -std=c++17 -Iinclude -Isrc -I.
 LDFLAGS := -Llib -lsgg -lGL -lGLEW -lSDL2 -lSDL2_mixer -lfreetype
 
-SRC := src/main.cpp
+# Compile all C++ sources under src/
+SRC := $(shell find src -name "*.cpp")
 TARGET := ./power_law_simulator
 
 .PHONY: all run clean debug
@@ -18,7 +19,7 @@ run: $(TARGET)
 DEBUG_TARGET := ./power_law_simulator_dbg
 
 debug:
-	$(CXX) -Og -g -std=c++17 -Iinclude -I. $(SRC) -o $(DEBUG_TARGET) -Llib -lsggd -lGL -lGLEW -lSDL2 -lSDL2_mixer -lfreetype
+	$(CXX) -Og -g -std=c++17 -Iinclude -Isrc -I. $(SRC) -o $(DEBUG_TARGET) -Llib -lsggd -lGL -lGLEW -lSDL2 -lSDL2_mixer -lfreetype
 
 clean:
 	rm -rf ./power_law_simulator
