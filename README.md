@@ -33,3 +33,11 @@ make clean # removes the all the binary
 - SGG library: https://github.com/cgaueb/sgg
 - course/university: a project for "Computer Programming with C++" at AUEB
 - contributors: Vasileios Grigoropoulos, Ifigeneia Rapti
+
+**TODO**
+- Fix the back to menu button (currently it crashes)
+- Make the forest fire grid not have any lines between the trees
+- Maybe maybe make the grid bigger/trees smaller so that there can be more trees
+- Make the trees red when they catch on fire before they disappear
+- Adjust the second and third slider values so that they are more useful and they provide better values
+- Make the boxes of each button in the main menu better visually (Maybe we make it a blurred preview of the simulation)
