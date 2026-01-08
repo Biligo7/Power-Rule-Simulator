@@ -11,7 +11,7 @@ static void draw() {
 static void update(float ms) {
 	(void)ms;
 	g_state.update();
-	// Optional: exit on ESC
+	// exit on ESC
 	if (graphics::getKeyState(graphics::SCANCODE_ESCAPE)) {
 		graphics::stopMessageLoop();
 	}
@@ -20,6 +20,7 @@ static void update(float ms) {
 int main() {
 	graphics::createWindow((int)cfg::canvas_w, (int)cfg::canvas_h, "Power-Law Simulator");
 	graphics::setCanvasSize(cfg::canvas_w, cfg::canvas_h);
+	graphics::setFont("assets/Nostard-Medium.ttf");
 	graphics::setDrawFunction(draw);
 	graphics::setUpdateFunction(update);
 

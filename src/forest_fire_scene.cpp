@@ -152,7 +152,7 @@ void ForestFireScene::draw(GlobalState& gs) {
 
     // Title and back button
     br.fill_color[0] = cfg::accent_blue_r/255.0f; br.fill_color[1] = cfg::accent_blue_g/255.0f; br.fill_color[2] = cfg::accent_blue_b/255.0f;
-    graphics::drawText(cw*0.10f, ch*0.12f, 24.0f, "Forest Fire Simulator", br);
+    graphics::drawText(cw*0.30f, ch*0.12f, 30.0f, "Forest Fire Simulator", br);
     if (backBtn) backBtn->draw(gs);
 
     // Sliders panel background
