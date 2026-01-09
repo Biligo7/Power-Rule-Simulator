@@ -41,3 +41,4 @@ make clean # removes the all the binary
 - Make the trees red when they catch on fire before they disappear
 - Adjust the second and third slider values so that they are more useful and they provide better values
 - Make the boxes of each button in the main menu better visually (Maybe we make it a blurred preview of the simulation)
+- Make the trees not appear in the same position of another tree, if that happens right now
