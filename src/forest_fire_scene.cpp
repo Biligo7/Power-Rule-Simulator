@@ -34,7 +34,7 @@ void ForestFireScene::init(GlobalState& gs) {
 
     // Back button top-left
     backBtn = new Button(cw * 0.09f, ch * 0.08f, 120.0f, 36.0f, "< Back", [&gs]() {
-        gs.setScene(new MenuScene());
+        gs.queueScene(new MenuScene());
     });
 }
 

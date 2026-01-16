@@ -35,7 +35,6 @@ make clean # removes the all the binary
 - contributors: Vasileios Grigoropoulos, Ifigeneia Rapti
 
 **TODO**
-- Fix the back to menu button (currently it crashes)
 - Make the forest fire grid not have any lines between the trees
 - Maybe maybe make the grid bigger/trees smaller so that there can be more trees
 - Make the trees red when they catch on fire before they disappear

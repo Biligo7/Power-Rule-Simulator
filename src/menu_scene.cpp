@@ -7,7 +7,7 @@ void MenuScene::init(GlobalState& gs) {
     float ch = gs.getCanvasH();
     // Single card/button for Forest Fire
     buttons.push_back(new Button(cw*0.5f, ch*0.55f, 300.0f, 120.0f, "Forest Fire", [&gs]() {
-        gs.setScene(new ForestFireScene());
+        gs.queueScene(new ForestFireScene());
     }));
 }
 

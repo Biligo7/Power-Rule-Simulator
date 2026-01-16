@@ -17,6 +17,11 @@ void GlobalState::setScene(Scene* s) {
     if (activeScene) activeScene->init(*this);
 }
 
+void GlobalState::queueScene(Scene* s) {
+    // Defer switching to avoid deleting current scene during its update
+    pendingScene = s;
+}
+
 void GlobalState::init() {
     setCanvasSize(cfg::canvas_w, cfg::canvas_h);
     setScene(new MenuScene());
@@ -24,6 +29,10 @@ void GlobalState::init() {
 
 void GlobalState::update() {
     if (activeScene) activeScene->update(*this);
+    if (pendingScene) {
+        setScene(pendingScene);
+        pendingScene = nullptr;
+    }
 }
 
 void GlobalState::draw() {
