@@ -15,7 +15,7 @@ static void update(float ms) {
 	// Toggle fullscreen on F11 (debounced until key release)
 	static bool f11Latch = false;
 	bool f11Pressed = graphics::getKeyState(graphics::SCANCODE_F11);
-	if (f11Pressed && !f11Latch) {
+	if (f11Pressed && !f11Latch){
 		f11Latch = true;
 		bool fs = !g_state.isFullscreen();
 		g_state.setFullscreen(fs);
@@ -23,12 +23,12 @@ static void update(float ms) {
 		// Re-apply canvas mapping after toggling fullscreen
 		graphics::setCanvasSize(cfg::canvas_w, cfg::canvas_h);
 		graphics::setCanvasScaleMode(graphics::CANVAS_SCALE_FIT);
-	} else if (!f11Pressed && f11Latch) {
+	} else if (!f11Pressed && f11Latch){
 		// key released
 		f11Latch = false;
 	}
 	// exit on ESC
-	if (graphics::getKeyState(graphics::SCANCODE_ESCAPE)) {
+	if (graphics::getKeyState(graphics::SCANCODE_ESCAPE)){
 		graphics::stopMessageLoop();
 	}
 	// Then run scene update

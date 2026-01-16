@@ -21,7 +21,7 @@ public:
         float my = graphics::windowToCanvasY((float)ms.cur_pos_y);
         bool inside = collision::pointInRect(cx, cy, w, h, mx, my);
         bool pressed = ms.button_left_down;
-        if (inside && pressed && !pressedLast && onClick) {
+        if (inside && pressed && !pressedLast && onClick){
             onClick();
         }
         pressedLast = pressed;

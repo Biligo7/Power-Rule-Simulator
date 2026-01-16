@@ -9,8 +9,10 @@
 class MenuScene : public Scene {
     std::vector<Button*> buttons;
 public:
-    ~MenuScene() override {
-        for (auto* b : buttons) delete b;
+    ~MenuScene() override{
+        for (auto* b : buttons){
+            delete b;
+        }
     }
 
     void init(GlobalState& gs) override;

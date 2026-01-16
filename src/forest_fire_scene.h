@@ -16,6 +16,8 @@ class ForestFireScene : public Scene {
     float p_grow;
     float p_lightning;
     float tickMs;
+
+    
     float chainDelayMs { 10.0f }; // delay between neighbor ignitions (ms)
 
     // UI
