@@ -12,7 +12,7 @@ void MenuScene::init(GlobalState& gs) {
 }
 
 void MenuScene::update(GlobalState& gs) {
-    for (auto* b : buttons) b->update(gs);
+    for (Button* b : buttons) b->update(gs);
 }
 
 void MenuScene::draw(GlobalState& gs) {
@@ -28,5 +28,5 @@ void MenuScene::draw(GlobalState& gs) {
     br.fill_color[0] = cfg::black_r; br.fill_color[1] = cfg::black_g; br.fill_color[2] = cfg::black_b;
     graphics::drawRect(cw*0.5f, ch*0.22f, cw*0.8f, 6.0f, br);
     // Buttons/cards
-    for (auto* b : buttons) b->draw(gs);
+    for (Button* b : buttons) b->draw(gs);
 }
