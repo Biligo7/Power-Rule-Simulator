@@ -21,9 +21,9 @@ namespace cfg {
     constexpr float tree_burning_g = 20.0f;
     constexpr float tree_burning_b = 60.0f;
     // Sliders defaults
-    constexpr float default_p_grow = 0.01f;
-    constexpr float default_p_lightning = 0.001f;
-    constexpr float default_tick_ms = 100.0f;
+    constexpr float default_p_grow = 0.005f;
+    constexpr float default_p_lightning = 0.05f;
+    constexpr float default_tick_ms = 50.0f;
 
     // Burning lifetime
     constexpr float burning_lifetime_ms = 500.0f; // 0.5 seconds

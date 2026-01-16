@@ -28,9 +28,9 @@ void ForestFireScene::init(GlobalState& gs) {
     float sx = cw * 0.85f;
     float baseY = ch * 0.35f;
     float dy = 90.0f;
-    sliders.push_back(new Slider(sx, baseY + 0*dy, 240.0f, 20.0f, 0.0f, 0.05f, p_grow, "Tree growth p_grow"));
-    sliders.push_back(new Slider(sx, baseY + 1*dy, 240.0f, 20.0f, 0.0f, 0.01f, p_lightning, "Lightning p_lightning"));
-    sliders.push_back(new Slider(sx, baseY + 2*dy, 240.0f, 20.0f, 20.0f, 500.0f, tickMs, "Tick interval (ms)"));
+    sliders.push_back(new Slider(sx, baseY + 0*dy, 240.0f, 20.0f, 0.0f, 0.01f, p_grow, "Tree growth p_grow"));
+    sliders.push_back(new Slider(sx, baseY + 1*dy, 240.0f, 20.0f, 0.0f, 0.1f, p_lightning, "Lightning p_lightning"));
+    sliders.push_back(new Slider(sx, baseY + 2*dy, 240.0f, 20.0f, 0.0f, 100.0f, tickMs, "Tick interval (ms)"));
 
     // Back button top-left
     backBtn = new Button(cw * 0.09f, ch * 0.08f, 120.0f, 36.0f, "< Back", [&gs]() {
@@ -52,7 +52,8 @@ void ForestFireScene::tick(GlobalState& gs) {
 
     // 2) Lightning
     if (Random::uniform01() < p_lightning) {
-        Cell c; if (grid.randomOccupiedCell(c)) {
+        Cell c;
+         if (grid.randomOccupiedCell(c)) {
             igniteClusterFrom(gs, c.x, c.y);
         }
     }
@@ -70,25 +71,28 @@ void ForestFireScene::tick(GlobalState& gs) {
 }
 
 void ForestFireScene::igniteClusterFrom(GlobalState& gs, int sx, int sy) {
-    float startMs = accumMs;
-    std::queue<Cell> q;
+    // Schedule staged ignition with small delays to create a visual chain effect
+    float startMs = graphics::getGlobalTime();
+    std::queue<std::pair<Cell,int>> q; // cell + BFS depth
     std::vector<char> visited(grid.width() * grid.height(), 0);
     auto markVisited = [&](int x, int y){ visited[grid.index(x,y)] = 1; };
     auto isVisited = [&](int x, int y){ return visited[grid.index(x,y)] != 0; };
 
-    q.push({sx, sy});
+    q.push({Cell{sx, sy}, 0});
     markVisited(sx, sy);
     while (!q.empty()) {
-        auto c = q.front(); q.pop();
+        auto cur = q.front(); q.pop();
+        Cell c = cur.first; int depth = cur.second;
         Tree* t = grid.get(c.x, c.y);
-        if (t && t->state == Tree::Alive) {
-            t->ignite(startMs);
+        if (t != nullptr) {
+            float scheduleTime = startMs + depth * chainDelayMs;
+            ignitionQueue.push_back({c.x, c.y, scheduleTime});
             for (auto n : grid.neighbors4(c.x, c.y)) {
                 if (!isVisited(n.x, n.y)) {
                     Tree* tn = grid.get(n.x, n.y);
                     if (tn != nullptr) {
                         markVisited(n.x, n.y);
-                        q.push(n);
+                        q.push({n, depth + 1});
                     }
                 }
             }
@@ -113,6 +117,18 @@ void ForestFireScene::update(GlobalState& gs) {
         tick(gs);
         // Keep remainder to prevent drift
         accumMs = 0.0f;
+    }
+
+    // Process staged ignitions
+    float nowMs = graphics::getGlobalTime();
+    while (!ignitionQueue.empty() && ignitionQueue.front().time <= nowMs) {
+        auto ev = ignitionQueue.front(); ignitionQueue.pop_front();
+        if (grid.inBounds(ev.x, ev.y)) {
+            Tree* t = grid.get(ev.x, ev.y);
+            if (t && t->state == Tree::Alive) {
+                t->ignite(ev.time);
+            }
+        }
     }
 }
 
