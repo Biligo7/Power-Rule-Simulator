@@ -28,9 +28,9 @@ void ForestFireScene::init(GlobalState& gs) {
     float sx = cw * 0.85f;
     float baseY = ch * 0.35f;
     float dy = 90.0f;
-    sliders.push_back(new Slider(sx, baseY + 0*dy, 240.0f, 20.0f, 0.0f, 0.01f, p_grow, "Tree growth p_grow"));
-    sliders.push_back(new Slider(sx, baseY + 1*dy, 240.0f, 20.0f, 0.0f, 0.1f, p_lightning, "Lightning p_lightning"));
-    sliders.push_back(new Slider(sx, baseY + 2*dy, 240.0f, 20.0f, 0.0f, 100.0f, tickMs, "Tick interval (ms)"));
+    sliders.push_back(new Slider(sx, baseY + 0*dy, 240.0f, 20.0f, 0.0f, 0.01f, p_grow, "Tree growth probability"));
+    sliders.push_back(new Slider(sx, baseY + 1*dy, 240.0f, 20.0f, 0.0f, 0.1f, p_lightning, "Lightning probability"));
+    sliders.push_back(new Slider(sx, baseY + 2*dy, 240.0f, 20.0f, 10.0f, 100.0f, tickMs, "Tick interval (ms)"));
 
     // Back button top-left
     backBtn = new Button(cw * 0.09f, ch * 0.08f, 120.0f, 36.0f, "< Back", [&gs]() {
@@ -50,7 +50,7 @@ void ForestFireScene::tick(GlobalState& gs) {
         }
     }
 
-    // 2) Lightning: allow only if no ongoing fire and no queued propagation
+    // 2) Lightning
     if (!anyTreeBurning() && ignitionQueue.empty() && Random::uniform01() < p_lightning) {
         Cell c;
          if (grid.randomOccupiedCell(c)) {
