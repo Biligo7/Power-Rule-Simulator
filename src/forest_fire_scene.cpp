@@ -25,7 +25,7 @@ void ForestFireScene::init(GlobalState& gs) {
     cellH = areaH / grid.height();
 
     // Sliders on the right
-    float sx = cw * 0.78f;
+    float sx = cw * 0.85f;
     float baseY = ch * 0.35f;
     float dy = 90.0f;
     sliders.push_back(new Slider(sx, baseY + 0*dy, 240.0f, 20.0f, 0.0f, 0.05f, p_grow, "Tree growth p_grow"));
@@ -127,12 +127,14 @@ void ForestFireScene::draw(GlobalState& gs) {
     // Draw grid area bounds
     float areaW = cw * 0.65f;
     float areaH = ch * 0.8f;
-    float areaCx = cw * 0.325f;
+    float areaCx = cw * 0.375f;
     float areaCy = ch * 0.55f;
     br.fill_color[0] = 0.0f; br.fill_color[1] = 0.0f; br.fill_color[2] = 0.0f;
     graphics::drawRect(areaCx, areaCy, areaW + 4.0f, areaH + 4.0f, br);
 
     // Draw cells
+    // Disable outlines to avoid visible lines between adjacent cells
+    br.outline_opacity = 0.0f;
     for (int y = 0; y < grid.height(); ++y) {
         for (int x = 0; x < grid.width(); ++x) {
             float cxCell = areaCx - areaW*0.5f + (x + 0.5f) * cellW;
@@ -146,7 +148,7 @@ void ForestFireScene::draw(GlobalState& gs) {
             } else {
                 br.fill_color[0] = cfg::tree_burning_r/255.0f; br.fill_color[1] = cfg::tree_burning_g/255.0f; br.fill_color[2] = cfg::tree_burning_b/255.0f;
             }
-            graphics::drawRect(cxCell, cyCell, cellW - 1.0f, cellH - 1.0f, br);
+            graphics::drawRect(cxCell, cyCell, cellW, cellH, br);
         }
     }
 
@@ -154,10 +156,6 @@ void ForestFireScene::draw(GlobalState& gs) {
     br.fill_color[0] = cfg::accent_blue_r/255.0f; br.fill_color[1] = cfg::accent_blue_g/255.0f; br.fill_color[2] = cfg::accent_blue_b/255.0f;
     graphics::drawText(cw*0.30f, ch*0.12f, 30.0f, "Forest Fire Simulator", br);
     if (backBtn) backBtn->draw(gs);
-
-    // Sliders panel background
-    br.fill_color[0] = 0.05f; br.fill_color[1] = 0.05f; br.fill_color[2] = 0.05f;
-    graphics::drawRect(cw*0.78f, ch*0.55f, cw*0.28f, ch*0.65f, br);
     // Sliders
     for (auto* s : sliders) s->draw(gs);
 }

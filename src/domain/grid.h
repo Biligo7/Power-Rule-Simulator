@@ -5,7 +5,10 @@
 #include "utils/random.h"
 #include "domain/tree.h"
 
-struct Cell { int x; int y; };
+struct Cell { 
+    int x; 
+    int y;
+};
 
 class Grid {
     int w, h;

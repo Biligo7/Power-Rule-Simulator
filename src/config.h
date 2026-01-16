@@ -12,8 +12,8 @@ namespace cfg {
     constexpr float black_r = 0.0f, black_g = 0.0f, black_b = 0.0f;
 
     // Forest fire defaults
-    constexpr int grid_w = 64;
-    constexpr int grid_h = 64;
+    constexpr int grid_w = 128;
+    constexpr int grid_h = 128;
     constexpr float tree_alive_r = accent_green_r;
     constexpr float tree_alive_g = accent_green_g;
     constexpr float tree_alive_b = accent_green_b;
