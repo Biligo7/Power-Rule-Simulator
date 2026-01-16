@@ -50,8 +50,8 @@ void ForestFireScene::tick(GlobalState& gs) {
         }
     }
 
-    // 2) Lightning
-    if (Random::uniform01() < p_lightning) {
+    // 2) Lightning: allow only if no ongoing fire and no queued propagation
+    if (!anyTreeBurning() && ignitionQueue.empty() && Random::uniform01() < p_lightning) {
         Cell c;
          if (grid.randomOccupiedCell(c)) {
             igniteClusterFrom(gs, c.x, c.y);
@@ -68,6 +68,16 @@ void ForestFireScene::tick(GlobalState& gs) {
             }
         }
     }
+}
+
+bool ForestFireScene::anyTreeBurning() const {
+    for (int y = 0; y < grid.height(); ++y) {
+        for (int x = 0; x < grid.width(); ++x) {
+            Tree* t = grid.get(x,y);
+            if (t && t->state == Tree::Burning) return true;
+        }
+    }
+    return false;
 }
 
 void ForestFireScene::igniteClusterFrom(GlobalState& gs, int sx, int sy) {

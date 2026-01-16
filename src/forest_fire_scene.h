@@ -27,6 +27,7 @@ class ForestFireScene : public Scene {
 
     void tick(GlobalState& gs);
     void igniteClusterFrom(GlobalState& gs, int sx, int sy);
+    bool anyTreeBurning() const;
 
 public:
     ForestFireScene();
