@@ -33,7 +33,3 @@ make clean # removes the all the binary
 - SGG library: https://github.com/cgaueb/sgg
 - course/university: a project for the course "Computer Programming with C++" at AUEB
 - contributors: Vasileios Grigoropoulos, Ifigeneia Rapti
-
-**TODO**
-- Make the boxes of each button in the main menu better visually (Maybe we make it a blurred preview of the simulation)
-- Make the trees not appear in the same position of another tree, if that happens right now
