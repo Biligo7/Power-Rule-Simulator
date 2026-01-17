@@ -5,6 +5,7 @@
 #include "ui/button.h"
 #include "ui/slider.h"
 #include <vector>
+#include <deque>
 
 class ForestFireScene : public Scene {
     Grid grid;
@@ -16,12 +17,19 @@ class ForestFireScene : public Scene {
     float p_lightning;
     float tickMs;
 
+    
+    float chainDelayMs { 10.0f }; // delay between neighbor ignitions (ms)
+
     // UI
     std::vector<Slider*> sliders;
     Button* backBtn { nullptr };
 
+    struct ScheduledIgnition { int x; int y; float time; };
+    std::deque<ScheduledIgnition> ignitionQueue;
+
     void tick(GlobalState& gs);
     void igniteClusterFrom(GlobalState& gs, int sx, int sy);
+    bool anyTreeBurning() const;
 
 public:
     ForestFireScene();

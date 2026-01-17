@@ -23,10 +23,10 @@ public:
         float my = graphics::windowToCanvasY((float)ms.cur_pos_y);
         float knobX = cx - w*0.5f + (value - minV)/(maxV - minV) * w;
         bool overKnob = collision::pointInRect(knobX, cy, h, h, mx, my);
-        if (ms.button_left_down && (overKnob || dragging)) {
+        if (ms.button_left_down && (overKnob || dragging)){
             dragging = true;
             float rel = (mx - (cx - w*0.5f));
-            if (rel < 0) rel = 0; if (rel > w) rel = w;
+            if (rel < 0){ rel = 0; } if (rel > w){ rel = w; }
             value = minV + (rel / w) * (maxV - minV);
         } else {
             dragging = false;

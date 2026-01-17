@@ -14,7 +14,7 @@ $(TARGET): $(SRC)
 	$(CXX) $(CXXFLAGS) $(SRC) -o $(TARGET) $(LDFLAGS)
 
 run: $(TARGET)
-	./$(TARGET)
+	$(TARGET)
 
 DEBUG_TARGET := ./power_law_simulator_dbg
 
