@@ -12,6 +12,11 @@ class Button : public Widget {
     std::function<void()> onClick;
     bool pressedLast { false };
     std::string texturePath;
+    // Hover zoom animation
+    float currentScale { 1.0f };
+    float targetScale { 1.0f };
+    float hoverScale { 1.08f }; // zoom in by ~8%
+    float animDurationMs { 200.0f }; // 0.2 seconds
 public:
     Button(float cx_, float cy_, float w_, float h_, std::string text, std::function<void()> cb)
     : Widget(cx_, cy_, w_, h_), label(std::move(text)), onClick(std::move(cb)) {}
@@ -23,16 +28,29 @@ public:
         graphics::getMouseState(ms);
         float mx = graphics::windowToCanvasX((float)ms.cur_pos_x);
         float my = graphics::windowToCanvasY((float)ms.cur_pos_y);
-        bool inside = collision::pointInRect(cx, cy, w, h, mx, my);
+
+        // Use scaled bounds for hover detection
+        bool inside = collision::pointInRect(cx, cy, w * currentScale, h * currentScale, mx, my);
+        
+        //on click detection
         bool pressed = ms.button_left_down;
         if (inside && pressed && !pressedLast && onClick){
             onClick();
         }
         pressedLast = pressed;
+
+        // Animate scale towards target depending on hover state
+        targetScale = inside ? hoverScale : 1.0f;
+        float dt = graphics::getDeltaTime(); // milliseconds
+        float alpha = dt / animDurationMs;
+        if (alpha > 1.0f){ alpha = 1.0f; }
+        currentScale += (targetScale - currentScale) * alpha;
     }
 
     void draw(GlobalState& gs) override {
         graphics::Brush br;
+        // Apply scale for the whole button draw
+        graphics::setScale(currentScale, currentScale);
         if (!texturePath.empty()){
             // Draw textured button with low opacity and border
             br.texture = texturePath;
@@ -64,5 +82,6 @@ public:
             br.fill_color[0] = 1.0f; br.fill_color[1] = 1.0f; br.fill_color[2] = 1.0f;
             graphics::drawText(cx - w*0.4f, cy + h*0.12f, 16.0f, label, br);
         }
+        graphics::resetPose();
     }
 };
