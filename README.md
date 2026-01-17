@@ -1,5 +1,12 @@
 # Power-Law-Simulator
-**A Power law simulator written in C++, using the sgg library.**
+
+## Overview
+
+**A C++ forest fire simulator demonstrating power-law behavior, built using the sgg library.**
+
+<img width="1330" height="739" alt="Image" src="https://github.com/user-attachments/assets/86b9887b-8ee2-41b7-8d24-63ae7000c2d8" />
+
+<img width="1585" height="1190" alt="Image" src="https://github.com/user-attachments/assets/8c8b6794-c973-4ad5-8d56-af0844b2b64a" />
 
 ## Prerequisites
 - Install build tools and dependencies for linux or wsl:
@@ -26,7 +33,7 @@ make clean # removes the all the binary
 - `Makefile`: Uses `-Iinclude` and `-Llib` to match standalone SGG setup.
 
 ## Notes
-- Run from the project root so `assets/...` paths resolve (using the Makefile's make run you should be at project root anyway). Thats also why the binary file is created in the project root. You can re-run it without any problems.
+- Run from the project root so `assets/...` paths resolve (using the Makefile's `make run` you should be at project root anyway). Thats also why the binary file is created in the project root. You can re-run it without any problems.
 - The whole project was developed using vscode on windows 11 wsl
 
 ## Credits
