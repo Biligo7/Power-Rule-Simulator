@@ -4,8 +4,10 @@
 #include "domain/grid.h"
 #include "ui/button.h"
 #include "ui/slider.h"
+#include "ui/log_log_plot.h"
 #include <vector>
 #include <deque>
+#include <utility>
 
 class ForestFireScene : public Scene {
     Grid grid;
@@ -23,13 +25,22 @@ class ForestFireScene : public Scene {
     // UI
     std::vector<Slider*> sliders;
     Button* backBtn { nullptr };
+    LogLogPlot* plotWidget { nullptr };
 
     struct ScheduledIgnition { int x; int y; float time; };
     std::deque<ScheduledIgnition> ignitionQueue;
 
+    // Power-law data collection for graph
+    bool eventActive { false };
+    int currentEventBurnCount { 0 };
+    std::vector<int> fireSizes;
+
     void tick(GlobalState& gs);
     void igniteClusterFrom(GlobalState& gs, int sx, int sy);
     bool anyTreeBurning() const;
+    int countBurningTrees() const;
+    void updateEventLifecycle(bool burningNow);
+    
 
 public:
     ForestFireScene();
