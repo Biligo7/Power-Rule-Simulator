@@ -4,9 +4,9 @@
 
 **A C++ forest fire simulator demonstrating power-law behavior, built using the sgg library.**
 
-<img width="1330" height="739" alt="Image" src="https://github.com/user-attachments/assets/86b9887b-8ee2-41b7-8d24-63ae7000c2d8" />
+<img width="1247" height="777" alt="Image" src="https://github.com/user-attachments/assets/8a813931-fc40-40db-87db-c78968d4af53" />
 
-<img width="1585" height="1190" alt="Image" src="https://github.com/user-attachments/assets/8c8b6794-c973-4ad5-8d56-af0844b2b64a" />
+<img width="1450" height="1087" alt="Image" src="https://github.com/user-attachments/assets/34703761-3802-4e48-8679-81b2d4a2b93a" />
 
 ## Prerequisites
 - Install build tools and dependencies for linux or wsl:
