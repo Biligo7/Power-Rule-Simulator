@@ -1,4 +1,4 @@
-#include "forest_fire_scene.h"
+#include "simulations/forest_fire/forest_fire_scene.h"
 #include "global_state.h"
 #include "config.h"
 #include "graphics.h"
