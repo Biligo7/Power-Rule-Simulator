@@ -32,9 +32,9 @@ void ForestFireScene::init(GlobalState& gs) {
     float sx = cw * 0.85f;
     float baseY = ch * 0.35f;
     float dy = 90.0f;
-    sliders.push_back(new Slider(sx, baseY + 0*dy, 240.0f, 20.0f, 0.0f, 0.01f, p_grow, "Tree growth probability"));
-    sliders.push_back(new Slider(sx, baseY + 1*dy, 240.0f, 20.0f, 0.0f, 0.1f, p_lightning, "Lightning probability"));
-    sliders.push_back(new Slider(sx, baseY + 2*dy, 240.0f, 20.0f, 10.0f, 100.0f, tickMs, "Tick interval (ms)"));
+    sliders.push_back(new Slider(sx, baseY + 0*dy, 240.0f, 20.0f, 0.0f, 0.01f, p_grow, "Tree growth probability per cell"));
+    sliders.push_back(new Slider(sx, baseY + 1*dy, 240.0f, 20.0f, 0.0f, 0.1f, p_lightning, "Lightning probability per tick"));
+    sliders.push_back(new Slider(sx, baseY + 2*dy, 240.0f, 20.0f, 10.0f, 200.0f, tickMs, "Tick interval (ms)"));
 
     // Back button top-left
     backBtn = new Button(cw * 0.09f, ch * 0.08f, 120.0f, 36.0f, "< Back", [&gs]() {
@@ -59,6 +59,9 @@ void ForestFireScene::tick(GlobalState& gs) {
         Cell c;
         if (grid.randomOccupiedCell(c)){
             igniteClusterFrom(gs, c.x, c.y);
+            
+            graphics::playSound("assets/thunder.mp3", 0.7f);
+
         }
     }
 
