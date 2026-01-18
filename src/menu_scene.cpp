@@ -1,6 +1,6 @@
 #include "menu_scene.h"
 #include "global_state.h"
-#include "forest_fire_scene.h"
+#include "simulations/forest_fire/forest_fire_scene.h"
 
 void MenuScene::init(GlobalState& gs) {
     float cw = gs.getCanvasW();

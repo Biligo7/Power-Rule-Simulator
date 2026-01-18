@@ -1,9 +1,10 @@
-#include "forest_fire_scene.h"
+#include "simulations/forest_fire/forest_fire_scene.h"
 #include "global_state.h"
 #include "config.h"
 #include "graphics.h"
 #include "utils/random.h"
 #include "menu_scene.h"
+#include <cmath>
 
 ForestFireScene::ForestFireScene()
     : grid(cfg::grid_w, cfg::grid_h), p_grow(cfg::default_p_grow),
@@ -17,12 +18,15 @@ ForestFireScene::~ForestFireScene(){
     if (backBtn){
         delete backBtn; backBtn = nullptr;
     }
+    if (plotWidget){
+        delete plotWidget; plotWidget = nullptr;
+    }
 }
 
 void ForestFireScene::init(GlobalState& gs) {
     float cw = gs.getCanvasW();
     float ch = gs.getCanvasH();
-    // Compute cell size to fit a square area on the left
+    // Compute cell
     float areaW = cw * 0.65f;
     float areaH = ch * 0.8f;
     cellW = areaW / grid.width();
@@ -30,7 +34,7 @@ void ForestFireScene::init(GlobalState& gs) {
 
     // Sliders on the right
     float sx = cw * 0.85f;
-    float baseY = ch * 0.35f;
+    float baseY = ch * 0.25f;
     float dy = 90.0f;
     sliders.push_back(new Slider(sx, baseY + 0*dy, 240.0f, 20.0f, 0.0f, 0.01f, p_grow, "Tree growth probability per cell"));
     sliders.push_back(new Slider(sx, baseY + 1*dy, 240.0f, 20.0f, 0.0f, 0.1f, p_lightning, "Lightning probability per tick"));
@@ -40,6 +44,13 @@ void ForestFireScene::init(GlobalState& gs) {
     backBtn = new Button(cw * 0.09f, ch * 0.08f, 120.0f, 36.0f, "< Back", [&gs]() {
         gs.queueScene(new MenuScene());
     });
+
+    // Plot widget (right panel)
+    float plotW = cw * 0.26f;
+    float plotH = ch * 0.28f;
+    float plotCx = cw * 0.85f;
+    float plotCy = ch * 0.8f;
+    plotWidget = new LogLogPlot(plotCx, plotCy, plotW, plotH);
 }
 
 void ForestFireScene::tick(GlobalState& gs) {
@@ -85,6 +96,17 @@ bool ForestFireScene::anyTreeBurning() const{
         }
     }
     return false;
+}
+
+int ForestFireScene::countBurningTrees() const{
+    int count = 0;
+    for (int y = 0; y < grid.height(); ++y){
+        for (int x = 0; x < grid.width(); ++x){
+            Tree* t = grid.get(x,y);
+            if (t && t->state == Tree::Burning){ ++count; }
+        }
+    }
+    return count;
 }
 
 void ForestFireScene::igniteClusterFrom(GlobalState& gs, int sx, int sy) {
@@ -144,8 +166,21 @@ void ForestFireScene::update(GlobalState& gs) {
             Tree* t = grid.get(ev.x, ev.y);
             if (t && t->state == Tree::Alive){
                 t->ignite(ev.time);
+                // Count this ignition as part of the current fire event
+                if (eventActive){
+                    ++currentEventBurnCount;
+                }
             }
         }
+    }
+
+    // Event lifecycle: detect start/end of fire episode and record size
+    updateEventLifecycle(anyTreeBurning());
+
+    // Update plot data and widget
+    if (plotWidget){
+        plotWidget->setData(fireSizes);
+        plotWidget->update(gs);
     }
 }
 
@@ -191,4 +226,32 @@ void ForestFireScene::draw(GlobalState& gs) {
     if (backBtn){ backBtn->draw(gs); }
     // Sliders
     for (auto* s : sliders){ s->draw(gs); }
+
+    // Graph widget: log–log fire size distribution (right panel)
+    if (plotWidget){ plotWidget->draw(gs); }
+}
+
+// Graph stuff
+void ForestFireScene::updateEventLifecycle(bool burningNow){
+    // Start of event: when burning begins and we weren't in an event already
+    if (!eventActive && burningNow){
+        eventActive = true;
+        // Initialize count with currently burning trees so we don't miss the first ignitions
+        int initialBurning = 0;
+        for (int y = 0; y < grid.height(); ++y){
+            for (int x = 0; x < grid.width(); ++x){
+                Tree* t = grid.get(x,y);
+                if (t && t->state == Tree::Burning){ ++initialBurning; }
+            }
+        }
+        currentEventBurnCount = initialBurning;
+    }
+    // End of event: when no burning and no pending ignitions
+    if (eventActive && !burningNow && ignitionQueue.empty()){
+        if (currentEventBurnCount > 0){
+            fireSizes.push_back(currentEventBurnCount);
+        }
+        eventActive = false;
+        currentEventBurnCount = 0;
+    }
 }

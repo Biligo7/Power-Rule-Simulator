@@ -37,6 +37,7 @@ make clean # removes the all the binary
 - The whole project was developed using vscode on windows 11 wsl
 
 ## Credits
+- Project inspiration: https://www.youtube.com/watch?v=HBluLfX2F_k
 - SGG library: https://github.com/cgaueb/sgg
 - course/university: a project for the course "Computer Programming with C++" at AUEB
 - contributors: Vasileios Grigoropoulos, Ifigeneia Rapti
