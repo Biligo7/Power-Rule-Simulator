@@ -6,7 +6,7 @@ void MenuScene::init(GlobalState& gs) {
     float cw = gs.getCanvasW();
     float ch = gs.getCanvasH();
     // Single card/button for Forest Fire
-    Button* forestBtn = new Button(cw*0.5f, ch*0.55f, 200.0f, 112.5f, "Forest Fire", [&gs](){
+    Button* forestBtn = new Button(cw*0.5f, ch*0.55f, 500.0f, 281.5f, "Forest Fire", [&gs](){
         gs.queueScene(new ForestFireScene());
     });
     forestBtn->setTexture("assets/Forest-fire-thumbnail.png");
