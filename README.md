@@ -8,7 +8,7 @@
 
 <img width="1450" height="1087" alt="Image" src="https://github.com/user-attachments/assets/34703761-3802-4e48-8679-81b2d4a2b93a" />
 
-## Prerequisites
+## Prerequisites (Linux)
 - Install build tools and dependencies for linux or wsl:
 ```bash
 sudo apt-get update
@@ -16,7 +16,7 @@ sudo apt-get install -y build-essential
 sudo apt-get install -y libsdl2-dev libsdl2-mixer-dev libglew-dev libfreetype6-dev
 ```
 
-## Build & Run
+## Build & Run (Linux)
 **From the project root:**
 ```bash
 make       # builds ./power_law_simulator (Release)
